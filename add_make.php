@@ -1,22 +1,27 @@
 <?php
+// Get the part data
 
-$make_id = filter_input(INPUT_POST, 'make_id', FILTER_VALIDATE_INT);
+$name = filter_input(INPUT_POST, 'name');
 
-if ($make == null) {
-    $error = "Invalid category data. Check all fields and try again.";
+
+// Validate inputs
+if ( $name == null) {
+    $error = "Invalid part data. Check all fields and try again.";
     include('error.php');
 } else {
     require_once('database.php');
 
-    
-    $query = "INSERT INTO makes (makeName)
-              VALUES (:make)";
+    // Add the part to the database  
+    $query = 'INSERT INTO makes
+                 (  makeName )
+              VALUES
+                 ( :name)';
     $statement = $db->prepare($query);
-    $statement->bindValue(':make', $make);
+    $statement->bindValue(':name', $name);
     $statement->execute();
     $statement->closeCursor();
 
-    
+    // Display the part List page
     include('make_list.php');
 }
 ?>
